@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cálculo de Custo - Impressão 3D</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+    }
+    .container {
+        max-width: 500px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    h1 {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .resultado {
+        margin-top: 20px;
+        background: #e9ffe9;
+        padding: 15px;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculadora de Custos 3D</h1>
+
+    <label>Valor do rolo de filamento (R$)</label>
+    <input type="number" id="valorFilamento" step="0.01">
+
+    <label>Peso gasto (g)</label>
+    <input type="number" id="pesoGasto" step="0.1">
+
+    <label>Custo por kWh (R$)</label>
+    <input type="number" id="custoKwh" step="0.01">
+
+    <label>Tempo de impressão (h)</label>
+    <input type="number" id="tempoHoras" step="0.1">
+
+    <label>Consumo da impressora (Watts)</label>
+    <input type="number" id="consumoWatts" step="0.1">
+
+    <label>Valor de compra da impressora (R$)</label>
+    <input type="number" id="valorCompra" step="0.01">
+
+    <label>Valor residual da impressora (R$)</label>
+    <input type="number" id="valorResidual" step="0.01">
+
+    <label>Vida útil da impressora (horas)</label>
+    <input type="number" id="vidaUtilHoras" step="1">
+
+    <button onclick="calcularCusto()">Calcular Custo</button>
+
+    <div id="resultado" class="resultado" style="display:none;"></div>
+</div>
+
+<script>
+function calcularCusto() {
+    const valorFilamento = parseFloat(document.getElementById("valorFilamento").value) || 0;
+    const pesoGasto = parseFloat(document.getElementById("pesoGasto").value) || 0;
+    const custoKwh = parseFloat(document.getElementById("custoKwh").value) || 0;
+    const tempoHoras = parseFloat(document.getElementById("tempoHoras").value) || 0;
+    const consumoWatts = parseFloat(document.getElementById("consumoWatts").value) || 0;
+    const valorCompra = parseFloat(document.getElementById("valorCompra").value) || 0;
+    const valorResidual = parseFloat(document.getElementById("valorResidual").value) || 0;
+    const vidaUtilHoras = parseFloat(document.getElementById("vidaUtilHoras").value) || 0;
+
+    // Custo do filamento (considerando rolo de 1kg)
+    const custoFilamento = (valorFilamento / 1000) * pesoGasto;
+
+    // Custo de energia
+    const custoEnergia = ((tempoHoras * consumoWatts) / 1000) * custoKwh;
+
+    // Depreciação automática (método horas de uso)
+    let custoDepreciacao = 0;
+    if (vidaUtilHoras > 0) {
+        const depreciacaoPorHora = (valorCompra - valorResidual) / vidaUtilHoras;
+        custoDepreciacao = depreciacaoPorHora * tempoHoras;
+    }
+
+    // Custo total
+    const custoTotal = custoFilamento + custoEnergia + custoDepreciacao;
+
+    document.getElementById("resultado").innerHTML = 
+        `💰 Custo Total da Peça: R$ ${custoTotal.toFixed(2)}<br>
+         📦 Filamento: R$ ${custoFilamento.toFixed(2)}<br>
+         ⚡ Energia: R$ ${custoEnergia.toFixed(2)}<br>
+         🛠 Depreciação (estimada): R$ ${custoDepreciacao.toFixed(2)}<br>
+         🧵 Sugestão de filamento mais custo-benefício: <a href="#">Voolt3D</a>
+         `;
+    document.getElementById("resultado").style.display = "block";
+}
+</script>
+
+</body>
+</html>
