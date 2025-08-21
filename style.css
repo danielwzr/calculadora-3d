@@ -7,9 +7,10 @@ body {
     font-family: Arial, sans-serif;
     background: #f5f5f5;
     display: flex;
-    align-items: center;
     justify-content: center;
     height: 100vh;
+    padding-top: 80px;
+    align-items: start;
 }
 .container {
     max-width: 500px;
@@ -52,9 +53,19 @@ button:hover {
 }
 .resultado {
     margin-top: 20px;
-    background: #e9ffe9;
+    background: #eeeeee;
     padding: 15px;
     border-radius: 5px;
     font-size: 1.1rem;
     text-align: center;
 }
+
+  .detalhe{
+    display: none;
+  }
+
+
+  #toggleDetalhes{
+       color: #007bff;
+    background: white;
+  }
