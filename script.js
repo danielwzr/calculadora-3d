@@ -72,12 +72,23 @@ function calcularCusto() {
   console.log(estado)
 
   document.getElementById("resultado").innerHTML =
-    `🧵 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br>(${pesoGasto}g de um filamento que custa R$ ${valorFilamento}/kg)<br><br>
-         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>(R$ ${custoKwh} por kWh ${ estado != "" ? (" em " + estado) : (" em média no Brasil")})<br><br>
-         🛠 Depreciação: <b>R$ ${depreciacao.toFixed(2)}</b> <br>(estimada em 1% do valor total)<br><br><br>
-         💰 Custo Total da Peça: <b>R$ ${custoTotal.toFixed(2)}</b><br><br><br>
+    `🧵 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br><span class="detalhe">(${pesoGasto}g de um filamento que custa R$ ${valorFilamento}/kg)</span><br><br>
+         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br><span class="detalhe">(R$ ${custoKwh} por kWh ${estado != "" ? (" em " + estado) : (" em média no Brasil")})</span><br><br>
+         🛠 Depreciação: <b>R$ ${depreciacao.toFixed(2)}</b> <br><span class="detalhe">(estimada em 1% do valor total)</span><br><br><br>
+         💰 Custo Total da Peça<br><b>R$ ${custoTotal.toFixed(2)}</b><br>
+         <button id="toggleDetalhes">Mostrar detalhes</button><br><br><br>
          📦 Sugestões de filamento custo-benefício: <br><br><a href="#">Voolt3D</a> <br><br><a href="#">MasterPrint</a>
-         `;
+  `;
+
+  // Adiciona o evento do botão
+  const botao = document.getElementById("toggleDetalhes");
+
+  botao.addEventListener("click", () => {
+    const spans = document.querySelectorAll("#resultado .detalhe");
+    const algumAberto = Array.from(spans).some(s => s.style.display === "inline");
+    spans.forEach(s => s.style.display = algumAberto ? "none" : "inline");
+    botao.textContent = algumAberto ? "Mostrar detalhes" : "Esconder detalhes";
+  });
   document.getElementById("resultado").style.display = "block";
 }
 
