@@ -9,9 +9,37 @@ if (navigator.geolocation) {
     const data = await response.json();
 
     estado = data.address.state || "";
-
-    console.log("Estado:", estado);
   });
+}
+
+var kwhPorEstado = {
+  "Acre": 0.79,
+  "Alagoas": 0.86,
+  "Amapá": 0.80,
+  "Amazonas": 0.85,
+  "Bahia": 0.82,
+  "Ceará": 0.72,
+  "Distrito Federal": 0.74,
+  "Espírito Santo": 0.68,
+  "Goiás": 0.74,
+  "Maranhão": 0.71,
+  "Mato Grosso": 0.84,
+  "Mato Grosso do Sul": 0.87,
+  "Minas Gerais": 0.79,
+  "Paraná": 0.93,
+  "Paraíba": 0.58,
+  "Pará": 0.62,
+  "Pernambuco": 0.74,
+  "Piauí": 0.82,
+  "Rio de Janeiro": 0.87,
+  "Rio Grande do Norte": 0.72,
+  "Rio Grande do Sul": 0.70,
+  "Rondônia": 0.72,
+  "Roraima": 0.66,
+  "Santa Catarina": 0.61,
+  "São Paulo": 0.67,
+  "Sergipe": 0.66,
+  "Tocantins": 0.82
 }
 
 
@@ -19,12 +47,11 @@ if (navigator.geolocation) {
 
 
 
-
-
 function calcularCusto() {
+  console.log(kwhPorEstado[estado])
   const valorFilamento = parseFloat(document.getElementById("valorFilamento").value) || 0;
   const pesoGasto = parseFloat(document.getElementById("pesoGasto").value) || 0;
-  const custoKwh = 0.76 //uma média entre todos estados
+  const custoKwh = kwhPorEstado[estado] || 0.76 //uma média entre todos estados
   //const custoKwh = parseFloat(document.getElementById("custoKwh").value) || 0;
   const tempoHoras = parseFloat(document.getElementById("tempoHoras").value) || 0;
   const consumoWatts = 110 //uma média
@@ -42,45 +69,27 @@ function calcularCusto() {
   // Custo total
   const custoTotal = custoFilamento + custoEnergia + depreciacao;
 
+  console.log(estado)
+
   document.getElementById("resultado").innerHTML =
-    `🧵 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br><br><br>
-         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>(${estado ? ("R$ " + kwhPorEstado[estado] + " por kWh em " + estado) : ("R$ ")})<br><br>
+    `🧵 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br>(${pesoGasto}g de um filamento que custa R$ ${valorFilamento}/kg)<br><br>
+         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>(R$ ${custoKwh} por kWh ${ estado != "" ? (" em " + estado) : (" em média no Brasil")})<br><br>
          🛠 Depreciação: <b>R$ ${depreciacao.toFixed(2)}</b> <br>(estimada em 1% do valor total)<br><br><br>
          💰 Custo Total da Peça: <b>R$ ${custoTotal.toFixed(2)}</b><br><br><br>
-         📦 Sugestão de filamento custo-benefício: <br><a href="#">Voolt3D</a>
+         📦 Sugestões de filamento custo-benefício: <br><br><a href="#">Voolt3D</a> <br><br><a href="#">MasterPrint</a>
          `;
   document.getElementById("resultado").style.display = "block";
 }
 
-var kwhPorEstado = {
-  "AC": 0.79,
-  "AL": 0.86,
-  "AP": 0.80,
-  "AM": 0.85,
-  "BA": 0.82,
-  "CE": 0.72,
-  "DF": 0.74,
-  "ES": 0.68,
-  "GO": 0.74,
-  "MA": 0.71,
-  "MT": 0.84,
-  "MS": 0.87,
-  "Minas Gerais": 0.79,
-  "PA": 0.93,
-  "PB": 0.58,
-  "PR": 0.62,
-  "PE": 0.74,
-  "PI": 0.82,
-  "RJ": 0.87,
-  "RN": 0.72,
-  "RS": 0.70,
-  "RO": 0.72,
-  "RR": 0.66,
-  "SC": 0.61,
-  "SP": 0.67,
-  "SE": 0.66,
-  "TO": 0.82
-}
+
+
+
+
+
+
+
+
+
 
 var consumo = {
   "BambuLab A1": 0.095,
