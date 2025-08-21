@@ -20,11 +20,11 @@ function calcularCusto() {
     const custoTotal = custoFilamento + custoEnergia + depreciacao;
 
     document.getElementById("resultado").innerHTML = 
-        `💰 Custo Total da Peça: R$ ${custoTotal.toFixed(2)}<br>
-         📦 Filamento: R$ ${custoFilamento.toFixed(2)}<br>
-         ⚡ Energia: R$ ${custoEnergia}<br>
-         🛠 Depreciação (estimada): R$ ${depreciacao.toFixed(2)} (1% do valor total)<br>
-         🧵 Sugestão de filamento mais custo-benefício: <a href="#">Voolt3D</a>
+        `📦 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br>
+         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>
+         🛠 Depreciação (estimada): <b>R$ ${depreciacao.toFixed(2)}</b> (1% do valor total)<br>
+         💰 Custo Total da Peça: <b>R$ ${custoTotal.toFixed(2)}</b><br>
+         🧵 Sugestão de filamento custo-benefício: <a href="#">Voolt3D</a>
          `;
     document.getElementById("resultado").style.display = "block";
 }
