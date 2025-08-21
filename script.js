@@ -1,62 +1,85 @@
+let estado = "";
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+    const data = await response.json();
+
+    estado = data.address.state || "";
+
+    console.log("Estado:", estado);
+  });
+}
+
+
+
+
+
+
+
+
 function calcularCusto() {
-    const valorFilamento = parseFloat(document.getElementById("valorFilamento").value) || 0;
-    const pesoGasto = parseFloat(document.getElementById("pesoGasto").value) || 0;
-    const custoKwh = 0.76 //uma média entre todos estados
-    //const custoKwh = parseFloat(document.getElementById("custoKwh").value) || 0;
-    const tempoHoras = parseFloat(document.getElementById("tempoHoras").value) || 0;
-    const consumoWatts = 110 //uma média
-    //const consumoWatts = parseFloat(document.getElementById("consumoWatts").value) || 0;
-       
-    // Custo do filamento (considerando rolo de 1kg)
-    const custoFilamento = (valorFilamento / 1000) * pesoGasto;
+  const valorFilamento = parseFloat(document.getElementById("valorFilamento").value) || 0;
+  const pesoGasto = parseFloat(document.getElementById("pesoGasto").value) || 0;
+  const custoKwh = 0.76 //uma média entre todos estados
+  //const custoKwh = parseFloat(document.getElementById("custoKwh").value) || 0;
+  const tempoHoras = parseFloat(document.getElementById("tempoHoras").value) || 0;
+  const consumoWatts = 110 //uma média
+  //const consumoWatts = parseFloat(document.getElementById("consumoWatts").value) || 0;
 
-    // Custo de energia
-    const custoEnergia = ((tempoHoras * consumoWatts) / 1000) * custoKwh;
+  // Custo do filamento (considerando rolo de 1kg)
+  const custoFilamento = (valorFilamento / 1000) * pesoGasto;
 
-    // Custo depreciação
-    const depreciacao = (custoFilamento + custoEnergia) * 0.01;
+  // Custo de energia
+  const custoEnergia = ((tempoHoras * consumoWatts) / 1000) * custoKwh;
 
-    // Custo total
-    const custoTotal = custoFilamento + custoEnergia + depreciacao;
+  // Custo depreciação
+  const depreciacao = (custoFilamento + custoEnergia) * 0.01;
 
-    document.getElementById("resultado").innerHTML = 
-        `📦 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br>
-         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>
-         🛠 Depreciação (estimada): <b>R$ ${depreciacao.toFixed(2)}</b> (1% do valor total)<br>
-         💰 Custo Total da Peça: <b>R$ ${custoTotal.toFixed(2)}</b><br>
-         🧵 Sugestão de filamento custo-benefício: <a href="#">Voolt3D</a>
+  // Custo total
+  const custoTotal = custoFilamento + custoEnergia + depreciacao;
+
+  document.getElementById("resultado").innerHTML =
+    `🧵 Filamento: <b>R$ ${custoFilamento.toFixed(2)}</b><br><br><br>
+         ⚡ Energia: <b>R$ ${custoEnergia.toFixed(2)}</b><br>(${estado ? ("R$ " + kwhPorEstado[estado] + " por kWh em " + estado) : ("R$ ")})<br><br>
+         🛠 Depreciação: <b>R$ ${depreciacao.toFixed(2)}</b> <br>(estimada em 1% do valor total)<br><br><br>
+         💰 Custo Total da Peça: <b>R$ ${custoTotal.toFixed(2)}</b><br><br><br>
+         📦 Sugestão de filamento custo-benefício: <br><a href="#">Voolt3D</a>
          `;
-    document.getElementById("resultado").style.display = "block";
+  document.getElementById("resultado").style.display = "block";
 }
 
 var kwhPorEstado = {
-  "AC": 0.791,
-  "AL": 0.863,
-  "AP": 0.808,
-  "AM": 0.857,
-  "BA": 0.821,
-  "CE": 0.722,
-  "DF": 0.743,
-  "ES": 0.682,
-  "GO": 0.745,
-  "MA": 0.711,
-  "MT": 0.847,
-  "MS": 0.870,
-  "MG": 0.796,
-  "PA": 0.938,
-  "PB": 0.588,
-  "PR": 0.629,
-  "PE": 0.744,
-  "PI": 0.829,
-  "RJ": 0.870,
-  "RN": 0.722,
-  "RS": 0.701,
-  "RO": 0.727,
-  "RR": 0.661,
-  "SC": 0.618,
-  "SP": 0.671,
-  "SE": 0.666,
-  "TO": 0.823
+  "AC": 0.79,
+  "AL": 0.86,
+  "AP": 0.80,
+  "AM": 0.85,
+  "BA": 0.82,
+  "CE": 0.72,
+  "DF": 0.74,
+  "ES": 0.68,
+  "GO": 0.74,
+  "MA": 0.71,
+  "MT": 0.84,
+  "MS": 0.87,
+  "Minas Gerais": 0.79,
+  "PA": 0.93,
+  "PB": 0.58,
+  "PR": 0.62,
+  "PE": 0.74,
+  "PI": 0.82,
+  "RJ": 0.87,
+  "RN": 0.72,
+  "RS": 0.70,
+  "RO": 0.72,
+  "RR": 0.66,
+  "SC": 0.61,
+  "SP": 0.67,
+  "SE": 0.66,
+  "TO": 0.82
 }
 
 var consumo = {
@@ -68,3 +91,21 @@ var consumo = {
 }
 
 var consumoMedio = 0.140
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
