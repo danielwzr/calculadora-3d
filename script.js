@@ -77,7 +77,7 @@ function calcularCusto() {
          🛠 Depreciação: <b>R$ ${depreciacao.toFixed(2)}</b> <br><span class="detalhe">(estimada em 1% do valor total)</span><br><br><br>
          💰 Custo Total da Peça<br><b>R$ ${custoTotal.toFixed(2)}</b><br>
          <button id="toggleDetalhes">Mostrar detalhes</button><br><br><br>
-         📦 Sugestões de filamento custo-benefício: <br><br><a href="#">Voolt3D</a> <br><br><a href="#">MasterPrint</a>
+         📦 Sugestões de filamento custo-benefício: <br><br><a href="https://s.shopee.com.br/8fIebSZ44G">Voolt3D</a> <br><br><a href="https://s.shopee.com.br/2g1RSPASlm">MasterPrint</a>
   `;
 
   // Adiciona o evento do botão
